@@ -36,7 +36,7 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} font-inter antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} font-inter w-full max-w-svw overflow-x-hidden bg-white antialiased dark:bg-gray-950`}
       >
         <ThemeProvider
           attribute='class'
