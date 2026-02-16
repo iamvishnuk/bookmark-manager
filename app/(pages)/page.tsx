@@ -1,5 +1,3 @@
-'use client';
-
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Search } from 'lucide-react';
@@ -36,7 +34,7 @@ export default function Home() {
             />
             <Input
               placeholder='Search...'
-              className='w-full border-none pl-8 text-gray-600 outline-none placeholder:text-gray-600 focus-visible:ring-1 dark:text-gray-500 dark:placeholder:text-gray-500 dark:focus-visible:ring-gray-800'
+              className='w-full pl-8 text-gray-600 outline-none placeholder:text-gray-600 focus-visible:ring-1 dark:text-gray-500 dark:placeholder:text-gray-500 dark:focus-visible:ring-gray-800'
             />
           </div>
         </div>
@@ -47,13 +45,15 @@ export default function Home() {
           Add Bookmark
         </Button>
       </div>
-      <div className='grid grid-cols-1 gap-5 py-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
-        {dummyBookmarks.map((bookmark) => (
-          <BookmarkCard
-            key={bookmark.id}
-            bookmark={bookmark}
-          />
-        ))}
+      <div className='min-h-[calc(100vh-20rem)]'>
+        <div className='grid grid-cols-1 gap-5 py-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
+          {dummyBookmarks.map((bookmark) => (
+            <BookmarkCard
+              key={bookmark.id}
+              bookmark={bookmark}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );

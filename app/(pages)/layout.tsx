@@ -1,3 +1,4 @@
+import Footer from '@/components/core/footer';
 import Header from '@/components/core/header';
 import { ReactNode } from 'react';
 
@@ -10,6 +11,7 @@ const PagesLayout = ({ children }: PagesLayoutProps) => {
     <div className='mx-auto max-w-7xl px-2'>
       <Header />
       {children}
+      <Footer />
     </div>
   );
 };

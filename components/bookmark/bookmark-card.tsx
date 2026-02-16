@@ -16,7 +16,7 @@ const BookmarkCard = ({ bookmark }: BookmarkCardProps) => {
   return (
     <div
       key={bookmark.id}
-      className='space-y-5 rounded-md border border-gray-800 bg-gray-950/10 p-3 shadow-sm'
+      className='border-border bg-muted h-fit space-y-5 rounded-md border p-3 shadow-sm dark:bg-gray-950/50'
     >
       <div className='relative flex items-center justify-between'>
         <p className='line-clamp-1 flex-1 text-base text-gray-600 dark:text-gray-300'>
