@@ -1,12 +1,37 @@
+'use client';
+
 import { Button } from '@/components/ui/button';
+import { createClient } from '@/lib/supabase/client';
+import { useState } from 'react';
 
 const Page = () => {
+  const supabase = createClient();
+
+  const [error, setError] = useState<string | null>(null);
+
+  const handleGoogleLogin = async () => {
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: `${window.location.origin}/auth/callback`,
+        skipBrowserRedirect: false
+      }
+    });
+
+    if (error) {
+      setError(error.message);
+    }
+  };
+
   return (
     <div className='flex flex-col'>
       <div className='flex flex-col items-center gap-1 text-center'>
         <h1 className='text-2xl font-bold'>Login to your account</h1>
       </div>
-      <Button className='mt-3 bg-blue-800 text-white transition-colors duration-300 hover:cursor-pointer hover:bg-blue-900'>
+      <Button
+        onClick={handleGoogleLogin}
+        className='mt-3 transition-colors duration-300 hover:cursor-pointer'
+      >
         <svg
           xmlns='http://www.w3.org/2000/svg'
           viewBox='0 0 24 24'
@@ -18,6 +43,9 @@ const Page = () => {
         </svg>
         Get start with Google
       </Button>
+      {error && (
+        <p className='mt-3 text-center text-sm text-red-500'>{error}</p>
+      )}
     </div>
   );
 };

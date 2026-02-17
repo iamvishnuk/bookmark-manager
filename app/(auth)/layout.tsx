@@ -1,4 +1,4 @@
-import { GalleryVerticalEnd } from 'lucide-react';
+import AuthImage from '@/components/auth/auth-image';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ReactNode } from 'react';
@@ -31,7 +31,9 @@ const AuthLayout = ({ children }: AuthLayoutProps) => {
           <div className='w-full max-w-xs'>{children}</div>
         </div>
       </div>
-      <div className='bg-muted relative hidden lg:block'></div>
+      <div className='hidden items-center lg:flex'>
+        <AuthImage />
+      </div>
     </div>
   );
 };
