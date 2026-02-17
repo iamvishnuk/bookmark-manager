@@ -8,11 +8,19 @@ import {
 import { Button } from '../ui/button';
 import { Copy, Edit, Ellipsis, ExternalLink, Trash } from 'lucide-react';
 import Link from 'next/link';
+import { useState } from 'react';
+import BookmarkForm from './bookmark-form';
+import ConfirmationDialog from '../confirm-dialog';
 
 type BookmarkCardProps = {
   bookmark: Bookmark;
 };
+
 const BookmarkCard = ({ bookmark }: BookmarkCardProps) => {
+  const [show, setShow] = useState(false);
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [bookmarkData, setBookmarkData] = useState<Bookmark | null>(null);
+
   return (
     <div
       key={bookmark.id}
@@ -33,7 +41,12 @@ const BookmarkCard = ({ bookmark }: BookmarkCardProps) => {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent className='bg-white dark:bg-gray-950'>
-            <DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => {
+                setBookmarkData(bookmark);
+                setShow(!show);
+              }}
+            >
               <Edit />
               Edit
             </DropdownMenuItem>
@@ -41,7 +54,9 @@ const BookmarkCard = ({ bookmark }: BookmarkCardProps) => {
               <Copy />
               Copy URL
             </DropdownMenuItem>
-            <DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => setShowConfirmation(!showConfirmation)}
+            >
               <Trash />
               Delete
             </DropdownMenuItem>
@@ -59,6 +74,17 @@ const BookmarkCard = ({ bookmark }: BookmarkCardProps) => {
           className='ml-2 opacity-0 transition-all duration-200 group-hover:translate-x-1 group-hover:opacity-100'
         />
       </Link>
+      <BookmarkForm
+        isEdit={true}
+        initialData={bookmarkData}
+        open={show}
+        setOpen={setShow}
+      />
+      <ConfirmationDialog
+        show={showConfirmation}
+        setShow={setShowConfirmation}
+        execute={() => {}}
+      />
     </div>
   );
 };

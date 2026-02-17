@@ -1,7 +1,11 @@
-import { Button } from '@/components/ui/button';
+'use client';
+
+import { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Search } from 'lucide-react';
 import BookmarkCard from '@/components/bookmark/bookmark-card';
+import BookmarkForm from '@/components/bookmark/bookmark-form';
+import { Button } from '@/components/ui/button';
 
 export type Bookmark = {
   id: string;
@@ -23,6 +27,7 @@ const dummyBookmarks: Bookmark[] = [
 ];
 
 export default function Home() {
+  const [show, setShow] = useState(false);
   return (
     <div className=''>
       <div className='flex h-20 flex-col items-center justify-between gap-3 lg:flex-row'>
@@ -41,9 +46,16 @@ export default function Home() {
         <Button
           variant='outline'
           className='w-full hover:cursor-pointer lg:w-fit'
+          onClick={() => setShow(true)}
         >
           Add Bookmark
         </Button>
+        <BookmarkForm
+          isEdit={false}
+          open={show}
+          setOpen={setShow}
+          initialData={null}
+        />
       </div>
       <div className='min-h-[calc(100vh-20rem)]'>
         <div className='grid grid-cols-1 gap-5 py-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
