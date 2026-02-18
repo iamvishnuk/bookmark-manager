@@ -49,7 +49,7 @@ const BookmarkList = ({ iniitalData }: BookmakrListProps) => {
     return () => {
       supabase.removeChannel(channel);
     };
-  }, []);
+  }, [supabase]);
 
   const filteredBookmarks = bookmarks.filter(
     (b) =>
