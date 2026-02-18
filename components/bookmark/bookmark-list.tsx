@@ -96,7 +96,7 @@ const BookmarkList = ({ iniitalData }: BookmakrListProps) => {
           </div>
         ) : (
           <div className='grid grid-cols-1 gap-5 py-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
-            {bookmarks.map((bookmark) => (
+            {filteredBookmarks.map((bookmark) => (
               <BookmarkCard
                 key={bookmark.id}
                 bookmark={bookmark}
