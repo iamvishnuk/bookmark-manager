@@ -15,8 +15,10 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { X } from 'lucide-react';
 import { Field, FieldError, FieldGroup, FieldLabel } from '../ui/field';
 import { Input } from '../ui/input';
-import { Bookmark } from '@/app/(pages)/page';
 import { useEffect } from 'react';
+import { toast } from 'sonner';
+import { addBookmarkAction, updateBookmarkAction } from '@/actions/bookmark';
+import { Bookmark } from '@/types';
 
 type BookmakrFormProps = {
   isEdit: boolean;
@@ -50,8 +52,22 @@ const BookmarkForm = ({
     }
   }, [isEdit, initialData, form]);
 
-  const onSubmit = (data: TBookMarkSchema) => {
-    console.log({ data });
+  const onSubmit = async (data: TBookMarkSchema) => {
+    try {
+      if (isEdit && initialData) {
+        await updateBookmarkAction(data, initialData.id);
+        toast.success('Bookmark updated successfully');
+      } else {
+        await addBookmarkAction(data);
+        toast.success('Bookmark added successfully');
+      }
+      setOpen(false);
+      form.reset();
+    } catch (error) {
+      toast.error('Something went wrong', {
+        description: (error as Error).message
+      });
+    }
   };
 
   return (

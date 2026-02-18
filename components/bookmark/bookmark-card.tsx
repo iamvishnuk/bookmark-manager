@@ -1,4 +1,3 @@
-import { Bookmark } from '@/app/(pages)/page';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -6,11 +5,14 @@ import {
   DropdownMenuTrigger
 } from '../ui/dropdown-menu';
 import { Button } from '../ui/button';
-import { Copy, Edit, Ellipsis, ExternalLink, Trash } from 'lucide-react';
+import { Check, Copy, Edit, Ellipsis, ExternalLink, Trash } from 'lucide-react';
 import Link from 'next/link';
 import { useState } from 'react';
 import BookmarkForm from './bookmark-form';
 import ConfirmationDialog from '../confirm-dialog';
+import { toast } from 'sonner';
+import { Bookmark } from '@/types';
+import { deleteBookmarkAction } from '@/actions/bookmark';
 
 type BookmarkCardProps = {
   bookmark: Bookmark;
@@ -20,6 +22,26 @@ const BookmarkCard = ({ bookmark }: BookmarkCardProps) => {
   const [show, setShow] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [bookmarkData, setBookmarkData] = useState<Bookmark | null>(null);
+  const [isCopied, setIsCopied] = useState(false);
+
+  const handleDeleteBookmark = async (id: string) => {
+    try {
+      await deleteBookmarkAction(id);
+      toast.success('Bookmark deleted successfully');
+      setShowConfirmation(false);
+    } catch (error) {
+      toast.error('Something went wrong', {
+        description: (error as Error).message
+      });
+    }
+  };
+
+  const handleCopy = (url: string) => {
+    if (!url) return;
+    navigator.clipboard.writeText(url);
+    setIsCopied(true);
+    setTimeout(() => setIsCopied(false), 2000);
+  };
 
   return (
     <div
@@ -50,8 +72,12 @@ const BookmarkCard = ({ bookmark }: BookmarkCardProps) => {
               <Edit />
               Edit
             </DropdownMenuItem>
-            <DropdownMenuItem>
-              <Copy />
+            <DropdownMenuItem onClick={() => handleCopy(bookmark.url)}>
+              {isCopied ? (
+                <Check className='h-4 w-4' />
+              ) : (
+                <Copy className='h-4 w-4' />
+              )}
               Copy URL
             </DropdownMenuItem>
             <DropdownMenuItem
@@ -83,7 +109,7 @@ const BookmarkCard = ({ bookmark }: BookmarkCardProps) => {
       <ConfirmationDialog
         show={showConfirmation}
         setShow={setShowConfirmation}
-        execute={() => {}}
+        execute={() => handleDeleteBookmark(bookmark.id)}
       />
     </div>
   );

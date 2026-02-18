@@ -1,4 +1,8 @@
-import ThemeToggle from '../theme-toggle';
+'use client';
+import dynamic from 'next/dynamic';
+const ThemeToggle = dynamic(() => import('../theme-toggle'), {
+  ssr: false
+});
 
 const Footer = () => {
   return (
